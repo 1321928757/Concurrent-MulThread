@@ -47,27 +47,32 @@ public class DownloadMain {
     }
 
     public static void main(String[] args) throws Exception {
+        // 1.输入接受
         Scanner scanner = new Scanner(System.in);
         System.out.println("请输入要下载的链接:");
         String url = scanner.nextLine();
+        // 2.连接格式判断
         long count = PROTOCAL_SET.stream().filter(prefix -> url.startsWith(prefix)).count();
         if (count == 0) {
             LogUtils.info("不支持的协议类型");
             return;
         }
         LogUtils.info("要下载的链接是:{}", url);
+        // 3.开始下载
         new DownloadMain().download(ThunderUtils.toHttpUrl(url));
     }
 
     public void download(String url) throws Exception {
+        // 1.首先判断文件是否已经存在
         String fileName = HttpUtls.getHttpFileName(url);
         long localFileSize = FileUtils.getFileContentLength(fileName);
-        // 获取网络文件具体大小
         long httpFileContentLength = HttpUtls.getHttpFileContentLength(url);
         if (localFileSize >= httpFileContentLength) {
             LogUtils.info("{}已经下载完毕，无需重新下载", fileName);
             return;
         }
+
+        // 2.创建异步任务
         List<Future<Boolean>> futureList = new ArrayList<>();
         if (localFileSize > 0) {
             LogUtils.info("开始断点续传 {}", fileName);
@@ -76,19 +81,22 @@ public class DownloadMain {
         }
         LogUtils.info("开始下载时间 {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
         long startTime = System.currentTimeMillis();
-        // 任务切分
+        // 3.任务切分，创建各个下载线程分块下载
         splitDownload(url, futureList);
+        // 3.1创建日志线程
         LogThread logThread = new LogThread(httpFileContentLength);
         Future<Boolean> future = executor.submit(logThread);
         futureList.add(future);
-        // 开始下载
+        // 4.等待任务完成
         for (Future<Boolean> booleanFuture : futureList) {
             booleanFuture.get();
         }
         LogUtils.info("文件下载完毕 {}，本次下载耗时：{}", fileName, (System.currentTimeMillis() - startTime) / 1000 + "s");
         LogUtils.info("结束下载时间 {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
-        // 文件合并
+        // 5.文件合并
         boolean merge = merge(fileName);
+
+        // 6.文件删除
         if (merge) {
             // 清理分段文件
             clearTemp(fileName);
@@ -106,17 +114,24 @@ public class DownloadMain {
      */
     public void splitDownload(String url, List<Future<Boolean>> futureList) throws IOException {
         long httpFileContentLength = HttpUtls.getHttpFileContentLength(url);
-        // 任务切分
+        // 1.将文件拆分为DOWNLOAD_THREAD_NUM部分
         long size = httpFileContentLength / DOWNLOAD_THREAD_NUM;
+        // 2.计算最后一个任务需要处理的大小，因为文件大小可能不能被任务数整除
         long lastSize = httpFileContentLength - (httpFileContentLength / DOWNLOAD_THREAD_NUM * (DOWNLOAD_THREAD_NUM - 1));
+        // 3.开始分配任务
         for (int i = 0; i < DOWNLOAD_THREAD_NUM; i++) {
+            // 3.1 计算下载起始位置
             long start = i * size;
+            // 3.2 最后任务处理
             Long downloadWindow = (i == DOWNLOAD_THREAD_NUM - 1) ? lastSize : size;
+            // 3.3 计算下载位置结束位置
             Long end = start + downloadWindow;
             if (start != 0) {
                 start++;
             }
+            // 3.4创建下载线程
             DownloadThread downloadThread = new DownloadThread(url, start, end, i, httpFileContentLength);
+            // 3.5加入Future异步任务中
             Future<Boolean> future = executor.submit(downloadThread);
             futureList.add(future);
         }

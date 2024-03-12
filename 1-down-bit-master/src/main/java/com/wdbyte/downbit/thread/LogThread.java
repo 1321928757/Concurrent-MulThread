@@ -12,6 +12,8 @@ import com.wdbyte.downbit.DownloadMain;
  */
 public class LogThread implements Callable<Boolean> {
 
+    // 因为存在多线程竞争，所以都用原子类操作
+
     // 本地下载的文件大小
     public static AtomicLong LOCAL_FINISH_SIZE = new AtomicLong();
     // 已经下载的文件大小

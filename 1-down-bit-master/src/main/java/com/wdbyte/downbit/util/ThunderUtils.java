@@ -29,6 +29,7 @@ public class ThunderUtils {
      * @return
      */
     public static String toHttpUrl(String url) {
+        // 1.如果不是迅雷连接，直接返回
         if (!isThunderLink(url)) {
             return url;
         }

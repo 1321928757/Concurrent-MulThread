@@ -53,17 +53,18 @@ public class DownloadThread implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
+        // 1.路径格式校验
         if (url == null || url.trim() == "") {
             throw new RuntimeException("下载路径不正确");
         }
 
-        // 文件名
+        // 2.定义分块文件名，格式为原文件名+temp+序号，如qq.temp1,qq.temp2,qq.temp3
         String httpFileName = HttpUtls.getHttpFileName(url);
         if (part != null) {
             httpFileName = httpFileName + DownloadMain.FILE_TEMP_SUFFIX + part;
         }
 
-        // 本地文件大小
+        // 3.判断以前是否下载过
         Long localFileContentLength = FileUtils.getFileContentLength(httpFileName);
         LogThread.LOCAL_FINISH_SIZE.addAndGet(localFileContentLength);
         if (localFileContentLength >= endPos - startPos) {
@@ -71,18 +72,21 @@ public class DownloadThread implements Callable<Boolean> {
             LogThread.DOWNLOAD_FINISH_THREAD.addAndGet(1);
             return true;
         }
+        // 如果刚好是最后一个任务，不需要指明文件结尾位置
         if (endPos.equals(contentLenth)) {
             endPos = null;
         }
 
+        // 4 获取连接
         HttpURLConnection httpUrlConnection = HttpUtls.getHttpUrlConnection(url, startPos + localFileContentLength, endPos);
-        // 获得输入流
+        // 4.1获得输入流
         try (InputStream input = httpUrlConnection.getInputStream(); BufferedInputStream bis = new BufferedInputStream(input);
              RandomAccessFile oSavedFile = new RandomAccessFile(httpFileName, "rw")) {
             oSavedFile.seek(localFileContentLength);
+            // 4.2 缓冲区
             byte[] buffer = new byte[BYTE_SIZE];
             int len = -1;
-            // 读到文件末尾则返回-1
+            // 4.3 读取文件到本地文件末尾
             while ((len = bis.read(buffer)) != -1) {
                 oSavedFile.write(buffer, 0, len);
                 LogThread.DOWNLOAD_SIZE.addAndGet(len);

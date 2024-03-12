@@ -60,8 +60,11 @@ public class HttpUtls {
      * @throws IOException
      */
     public static long getHttpFileContentLength(String url) throws IOException {
+        // 1.获取链接
         HttpURLConnection httpUrlConnection = getHttpUrlConnection(url);
+        // 2.获取文件长度
         int contentLength = httpUrlConnection.getContentLength();
+        // 3.断开链接
         httpUrlConnection.disconnect();
         return contentLength;
     }
