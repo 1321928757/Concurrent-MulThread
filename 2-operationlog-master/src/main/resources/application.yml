@@ -1,0 +1,47 @@
+# 线程池配置
+thread:
+  pool:
+    core-pool-size: 5
+    max-pool-size: 10
+    queue-capacity: 50
+    keep-alive-seconds: 60
+mybatis-plus:
+  mapper-locations: classpath*:/mybatis/mapper/*.xml
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8080
+spring:
+  application:
+    name: woniu.demo
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      filter:
+        stat:
+          db-type: mysql
+          enabled: true
+        wall:
+          db-type: mysql
+          enabled: true
+      filters: stat,wall
+      initial-size: 5
+      max-active: 30
+      max-pool-prepared-statement-per-connection-size: 0
+      max-wait: 60000
+      min-evictable-idle-time-millis: 300000
+      min-idle: 5
+      pool-prepared-statements: false
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      use-global-data-source-stat: true
+      validation-query: SELECT 1 FROM DUAL
+    password: lsj20030222
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull
+    username: root
+
