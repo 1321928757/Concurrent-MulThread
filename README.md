@@ -1,17 +1,21 @@
 ## 本仓库主要分享一些Java多线程编程的实用代码片段 -by LuckySJ@刘仕杰
 
 ### 代码文章讲解(CSDN)
-案例二，多线程异步保存日志
+案例三，CountDownLatch模拟压测实现  
+[Java多线程实战-CountDownLatch模拟压测实现](https://blog.csdn.net/qq_35716689/article/details/136789433)
 
+案例二，多线程异步保存日志  
 [Java多线程实战-异步操作日志记录解决方案(AOP+注解+多线程)](https://blog.csdn.net/qq_35716689/article/details/136748521)
 
-案例一，多线程下载器
-
+案例一，多线程下载器  
 [Java多线程实战-实现多线程文件下载，支持断点续传、日志记录等功能](https://blog.csdn.net/qq_35716689/article/details/136597588)
 
 
 
 ### 更新记录
+案例三，CountDownLatch模拟压测实现
+2024-3-17：📖CountDownLatch模拟压测代码片段初步版本
+
 案例二，多线程异步保存日志  
 2024-3-15：📖 多线程异步记录操作demo发布
 
