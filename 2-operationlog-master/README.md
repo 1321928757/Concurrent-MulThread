@@ -1,7 +1,7 @@
 ## 案例二、多线程异步记录操作日志 - OperationLog
 
 ### 更新记录
-2024-3-15：:tada: 多线程异步记录操作demo发布
+2024-3-15：:📖多线程异步记录操作demo发布
 
 ### 使用方式
 1.导入src/main/resources/db/data-h2.sql数据库文件
