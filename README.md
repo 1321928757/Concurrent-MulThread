@@ -1,7 +1,7 @@
 ## 本仓库主要分享一些Java多线程编程的实用代码片段 -by LuckySJ@刘仕杰
 
 ### 代码文章讲解(CSDN)
-案例三，多线程编程优化查询接口响应速度  
+案例四，多线程编程优化查询接口响应速度  
 [Java多线程实战-CompletableFuture异步编程优化查询接口响应速度](https://blog.csdn.net/qq_35716689/article/details/136868259)
 
 案例三，CountDownLatch模拟压测实现  
