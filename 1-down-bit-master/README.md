@@ -13,6 +13,7 @@ git clone git@github.com:niumoo/down-bit.git
 cd down-bit
 mvn package
 java -jar target/down-bit-jar-with-dependencies.jar 下载链接
+
 ```
 或者idea直接运行
 
