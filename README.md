@@ -3,6 +3,7 @@
 ### 代码文章讲解(CSDN)
 案例五、从零手搓一个简易线程池  
 [Java多线程实战-从零手搓一个简易线程池(一)定义任务等待队列](https://blog.csdn.net/qq_35716689/article/details/136962958)
+[Java多线程实战-从零手搓一个简易线程池(二)初步实现自定义线程池](https://blog.csdn.net/qq_35716689/article/details/137072055)
 
 案例四，多线程编程优化查询接口响应速度  
 [Java多线程实战-CompletableFuture异步编程优化查询接口响应速度](https://blog.csdn.net/qq_35716689/article/details/136868259)
