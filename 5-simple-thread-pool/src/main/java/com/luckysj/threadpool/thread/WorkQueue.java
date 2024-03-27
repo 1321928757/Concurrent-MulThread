@@ -14,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @create 2024/03/25 19:36:14
  */
 @Slf4j
-public class BlockQueue<T> {
+public class WorkQueue<T> {
     // 双端队列
     private Deque<T> deque = new ArrayDeque<>();
     // 队列的容量
@@ -25,7 +25,7 @@ public class BlockQueue<T> {
     private Condition fullCondition = lock.newCondition();
     private Condition emptyCondition = lock.newCondition();
 
-    public BlockQueue(int size) {
+    public WorkQueue(int size) {
         this.size = size;
     }
 
@@ -64,7 +64,7 @@ public class BlockQueue<T> {
             }
             // 3.拿取元素
             T task = deque.removeFirst();
-            log.info("任务拿取成功:{}", task);
+            log.info("线程{}任务拿取成功", Thread.currentThread());
             // 4.唤醒挂起的生产者
             fullCondition.signal();
             return task;
@@ -122,7 +122,7 @@ public class BlockQueue<T> {
                         return null;
                     }
                     // 2.2超时等待
-                    log.debug("等待获取任务");
+                    log.debug("{}线程等待获取任务", Thread.currentThread());
                     nanos = emptyCondition.awaitNanos(nanos);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -130,12 +130,31 @@ public class BlockQueue<T> {
             }
             // 3.拿取元素
             T task = deque.removeFirst();
-            log.info("任务拿取成功:{}", task);
+            log.info("线程{}任务拿取成功", Thread.currentThread());
             // 4.唤醒挂起的生产者
             fullCondition.signal();
             return task;
         } finally {
             // 释放锁
+            lock.unlock();
+        }
+    }
+
+    // 尝试向队列添加任务，如果队列已满就触发拒绝策略
+    public void tryPut(RejectPolicy<T> rejectPolicy, T task){
+        lock.lock();
+        try {
+            if(deque.size() == size){
+                // 队列满了就触发拒绝策略
+                log.info("拒绝策略触发，当前任务：{}", task);
+                rejectPolicy.reject(this, task);
+            }else{
+                // 队列没满就将任务加入队列
+                log.debug("没有空闲线程，加入任务等待队列等待");
+                deque.addLast(task);
+                emptyCondition.signal();
+            }
+        }finally {
             lock.unlock();
         }
     }
