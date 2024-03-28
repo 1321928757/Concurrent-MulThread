@@ -1,9 +1,9 @@
-package com.luckysj.threadpool.thread;
+package com.luckysj.threadpool;
 
+import com.luckysj.threadpool.core.ThreadPool;
+import com.luckysj.threadpool.core.WorkQueue;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j

@@ -1,4 +1,6 @@
-package com.luckysj.threadpool.thread;
+package com.luckysj.threadpool.policy;
+
+import com.luckysj.threadpool.core.WorkQueue;
 
 /**
  * @author Luckysj @刘仕杰

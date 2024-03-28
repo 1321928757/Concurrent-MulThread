@@ -1,5 +1,6 @@
-package com.luckysj.threadpool.thread;
+package com.luckysj.threadpool.core;
 
+import com.luckysj.threadpool.policy.RejectPolicy;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayDeque;

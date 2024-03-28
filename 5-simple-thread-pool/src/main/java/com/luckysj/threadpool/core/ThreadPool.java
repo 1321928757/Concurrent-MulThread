@@ -1,12 +1,11 @@
-package com.luckysj.threadpool.thread;
+package com.luckysj.threadpool.core;
 
+import com.luckysj.threadpool.policy.RejectPolicy;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 /**
  * @author Luckysj @刘仕杰
