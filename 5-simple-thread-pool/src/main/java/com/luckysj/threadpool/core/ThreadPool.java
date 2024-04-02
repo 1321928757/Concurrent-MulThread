@@ -37,8 +37,8 @@ public class ThreadPool {
     /** 是否允许核心线程被回收 */
     private boolean allowCoreThreadTimeOut;
 
-    public ThreadPool(WorkQueue<Runnable> workQueue, int corePoolSize, int maximumPoolSize, Long keepAliveTime, TimeUnit timeUnit, RejectPolicy<Runnable> rejectPolicy, ThreadFactory threadFactory) {
-        this.workQueue = workQueue;
+    public ThreadPool(WorkQueue<Runnable> taskQueue, int corePoolSize, int maximumPoolSize, Long keepAliveTime, TimeUnit timeUnit, RejectPolicy<Runnable> rejectPolicy, ThreadFactory threadFactory) {
+        this.workQueue = taskQueue;
         this.corePoolSize = corePoolSize;
         this.maximumPoolSize = maximumPoolSize;
         this.keepAliveTime = keepAliveTime;
@@ -123,6 +123,9 @@ public class ThreadPool {
         rejectPolicy.reject(workQueue, task);
     }
 
+    public void setAllowCoreThreadTimeOut(Boolean allowCoreThreadTimeOut){
+        this.allowCoreThreadTimeOut = allowCoreThreadTimeOut;
+    }
     /**
     * @description 添加工作线程
     * @param firstTask 线程第一次执行的任务
@@ -147,9 +150,9 @@ public class ThreadPool {
             synchronized (workerSet){
                 workerSet.add(worker);
                 threadTotalNums.getAndIncrement();
-                t.start();
-                return true;
             }
+            t.start();
+            return true;
         }
         return false;
     }
