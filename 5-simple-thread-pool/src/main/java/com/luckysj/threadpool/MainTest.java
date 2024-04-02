@@ -13,14 +13,12 @@ import java.util.concurrent.TimeUnit;
 public class MainTest {
     public static void main(String[] args) {
 
-
-
         ThreadPool threadPool = new ThreadPool(new WorkQueue<>(5), 2, 5,5L, TimeUnit.SECONDS,
                 (queue, task) -> {
-                    System.out.println();
+                    log.info("拒绝策略====》拒绝策略触发，直接丢弃当前任务");
                 }, new DefaultThreadFactory());
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             threadPool.execute(() -> {
                 System.out.println("执行任务------->当前执行线程为" + Thread.currentThread().toString());
                 try {

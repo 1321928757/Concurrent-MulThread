@@ -46,6 +46,14 @@ public class ThreadPool {
         this.rejectPolicy = rejectPolicy;
         this.threadFactory = threadFactory;
         this.allowCoreThreadTimeOut = false;
+        log.info("\n---------------线程池创建成功--------------\n" +
+                "最大核心线程数：{}\n" +
+                "最大总线程数：{}\n" +
+                "线程最大空闲时间：{}\n" +
+                "空闲时间单位：{}\n" +
+                "allowCoreThreadTimeOut：{}\n" +
+                "----------------------------------------",
+                corePoolSize, maximumPoolSize,keepAliveTime, timeUnit.toString(), allowCoreThreadTimeOut);
     }
 
     // 为了方便使用，我们封装工作线程
@@ -81,7 +89,7 @@ public class ThreadPool {
                 workerSet.remove(this);
                 threadTotalNums.decrementAndGet(); //计数扣减
             }
-            log.info("工作线程====》线程{}超过最大空闲时间没有获取到任务，已被回收", Thread.currentThread());
+            log.info("工作线程====》线程{}已被回收，当前线程数:{}", Thread.currentThread(), threadTotalNums.get());
 
         }
     }
