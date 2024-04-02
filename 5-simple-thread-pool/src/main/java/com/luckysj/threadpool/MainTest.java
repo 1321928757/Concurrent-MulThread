@@ -21,7 +21,7 @@ public class MainTest {
         threadPool.setAllowCoreThreadTimeOut(true);
         for (int i = 0; i < 15; i++) {
             threadPool.execute(() -> {
-                System.out.println("执行任务------->当前执行线程为" + Thread.currentThread().toString());
+                log.info("执行任务------->当前执行线程为" + Thread.currentThread().toString());
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
