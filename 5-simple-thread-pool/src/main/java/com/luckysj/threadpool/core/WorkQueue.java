@@ -42,7 +42,7 @@ public class WorkQueue<T> {
             }
             // 3.将任务存入队列中
             deque.addLast(task);
-            log.info("任务添加成功:{}", task);
+            log.info("等待队列====》任务添加成功");
             // 4.唤醒挂起的消费者
             emptyCondition.signal();
         } catch (InterruptedException e) {
@@ -65,7 +65,7 @@ public class WorkQueue<T> {
             }
             // 3.拿取元素
             T task = deque.removeFirst();
-            log.info("线程{}任务拿取成功", Thread.currentThread());
+            log.info("等待队列====》线程{}任务拿取成功", Thread.currentThread());
             // 4.唤醒挂起的生产者
             fullCondition.signal();
             return task;
@@ -77,6 +77,25 @@ public class WorkQueue<T> {
         }
     }
 
+    // 非堵塞添加任务
+    public Boolean offer(T task){
+        // 1.上锁
+        lock.lock();
+        try {
+            if (size == deque.size()){
+               return false;
+            }
+            // 3.将任务存入队列中
+            deque.addLast(task);
+            log.info("等待队列====》任务添加成功");
+            // 4.唤醒挂起的消费者
+            emptyCondition.signal();
+            return true;
+        } finally {
+            // 释放锁
+            lock.unlock();
+        }
+    }
     // 带超时时间阻塞添加
     public Boolean offer(T task, Long timeout, TimeUnit unit) {
         // 1.上锁
@@ -91,7 +110,7 @@ public class WorkQueue<T> {
                         return false;
                     }
                     // 2.2超时等待
-                    log.debug("等待加入任务队列 {} ...", task);
+                    log.debug("等待队列====》任务等待加入任务队列 {} ...", task);
                     nanos = fullCondition.awaitNanos(nanos);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -99,7 +118,7 @@ public class WorkQueue<T> {
             }
             // 3.将任务存入队列中
             deque.addLast(task);
-            log.info("任务添加成功:{}", task);
+            log.info("等待队列====》任务添加成功");
             // 4.唤醒挂起的消费者
             emptyCondition.signal();
             return true;
@@ -123,7 +142,7 @@ public class WorkQueue<T> {
                         return null;
                     }
                     // 2.2超时等待
-                    log.debug("{}线程等待获取任务", Thread.currentThread());
+                    log.debug("等待队列====》{}线程等待获取任务", Thread.currentThread());
                     nanos = emptyCondition.awaitNanos(nanos);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -131,7 +150,7 @@ public class WorkQueue<T> {
             }
             // 3.拿取元素
             T task = deque.removeFirst();
-            log.info("线程{}任务拿取成功", Thread.currentThread());
+            log.info("等待队列====》线程{}任务拿取成功", Thread.currentThread());
             // 4.唤醒挂起的生产者
             fullCondition.signal();
             return task;
@@ -141,22 +160,7 @@ public class WorkQueue<T> {
         }
     }
 
-    // 尝试向队列添加任务，如果队列已满就触发拒绝策略
-    public void tryPut(RejectPolicy<T> rejectPolicy, T task){
-        lock.lock();
-        try {
-            if(deque.size() == size){
-                // 队列满了就触发拒绝策略
-                log.info("拒绝策略触发，当前任务：{}", task);
-                rejectPolicy.reject(this, task);
-            }else{
-                // 队列没满就将任务加入队列
-                log.debug("没有空闲线程，加入任务等待队列等待");
-                deque.addLast(task);
-                emptyCondition.signal();
-            }
-        }finally {
-            lock.unlock();
-        }
+    public boolean isEmpty(){
+        return deque.isEmpty();
     }
 }
