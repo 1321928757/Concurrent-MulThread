@@ -13,12 +13,16 @@ import java.util.concurrent.TimeUnit;
 public class MainTest {
     public static void main(String[] args) {
 
+        // 1.开启线程池
         ThreadPool threadPool = new ThreadPool(new WorkQueue<>(5), 2, 5,5L, TimeUnit.SECONDS,
                 (queue, task) -> {
                     log.info("拒绝策略====》拒绝策略触发，直接丢弃当前任务");
                 }, new DefaultThreadFactory());
 
+        // 2.允许核心线程回收
         threadPool.setAllowCoreThreadTimeOut(true);
+
+        // 3.执行任务
         for (int i = 0; i < 15; i++) {
             threadPool.execute(() -> {
                 log.info("执行任务------->当前执行线程为" + Thread.currentThread().toString());
