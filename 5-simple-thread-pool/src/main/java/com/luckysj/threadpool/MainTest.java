@@ -19,6 +19,7 @@ public class MainTest {
                     log.info("拒绝策略====》拒绝策略触发，直接丢弃当前任务");
                 }, new DefaultThreadFactory());
 
+
         // 2.允许核心线程回收
         threadPool.setAllowCoreThreadTimeOut(true);
 
