@@ -56,6 +56,10 @@ public class ThreadPool {
                 corePoolSize, maximumPoolSize,keepAliveTime, timeUnit.toString(), allowCoreThreadTimeOut);
     }
 
+    public WorkQueue<Runnable> getQueue() {
+        return workQueue;
+    }
+
     // 为了方便使用，我们封装工作线程
     class Worker implements Runnable{
         private Runnable firstTask;
@@ -120,7 +124,7 @@ public class ThreadPool {
     * @date 2024/04/02 13:12:08
     */
     private void reject(Runnable task) {
-        rejectPolicy.reject(workQueue, task);
+        rejectPolicy.reject(this, task);
     }
 
     public void setAllowCoreThreadTimeOut(Boolean allowCoreThreadTimeOut){

@@ -1,5 +1,6 @@
 package com.luckysj.threadpool.policy;
 
+import com.luckysj.threadpool.core.ThreadPool;
 import com.luckysj.threadpool.core.WorkQueue;
 
 /**
@@ -8,6 +9,6 @@ import com.luckysj.threadpool.core.WorkQueue;
  * @create 2024/03/27 11:29:46
  */
 public interface RejectPolicy<T> {
-    void reject(WorkQueue<T> blockQueue, T task);
+    void reject(ThreadPool pool, T task);
 
 }
