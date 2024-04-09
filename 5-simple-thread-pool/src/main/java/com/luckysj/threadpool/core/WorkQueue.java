@@ -128,6 +128,23 @@ public class WorkQueue<T> {
         }
     }
 
+    // 非阻塞获取
+    public T poll(){
+        // 1.上锁
+        lock.lock();
+        try {
+            // 2.首先检查队列是否存在元素
+            T task = null;
+            if(!deque.isEmpty()){
+                task = deque.removeFirst();
+                fullCondition.signal();
+            }
+            return task;
+        } finally {
+            // 释放锁
+            lock.unlock();
+        }
+    }
     // 带超时时间阻塞获取
     public T poll(long timeout, TimeUnit unit) {
         // 1.上锁

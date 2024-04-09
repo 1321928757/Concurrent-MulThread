@@ -120,7 +120,7 @@ public class ThreadPool {
     * @date 2024/04/02 13:12:08
     */
     private void reject(Runnable task) {
-        rejectPolicy.reject(workQueue, task);
+        rejectPolicy.reject(this, task);
     }
 
     public void setAllowCoreThreadTimeOut(Boolean allowCoreThreadTimeOut){
@@ -186,5 +186,9 @@ public class ThreadPool {
             // 获取任务超时了，将preIsTimeOut设为true，下次可以执行回收
             preIsTimeOut = true;
         }
+    }
+
+    public WorkQueue<Runnable> getQueue() {
+        return workQueue;
     }
 }
