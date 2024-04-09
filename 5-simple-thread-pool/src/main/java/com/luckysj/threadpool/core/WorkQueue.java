@@ -46,7 +46,8 @@ public class WorkQueue<T> {
             // 4.唤醒挂起的消费者
             emptyCondition.signal();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            // sleep等等状态下的线程如果被中断会抛出InterruptedException，我们要手动恢复中断状态
+            Thread.currentThread().interrupt();
         } finally {
             // 释放锁
             lock.unlock();
@@ -54,7 +55,7 @@ public class WorkQueue<T> {
     }
 
     // 获取任务 阻塞获取
-    public T take() {
+    public T take() throws InterruptedException {
         // 1.上锁
         lock.lock();
         try {
@@ -69,16 +70,14 @@ public class WorkQueue<T> {
             // 4.唤醒挂起的生产者
             fullCondition.signal();
             return task;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
+        }  finally {
             // 释放锁
             lock.unlock();
         }
     }
 
     // 非堵塞添加任务
-    public Boolean offer(T task) {
+    public Boolean offer(T task)  {
         // 1.上锁
         lock.lock();
         try {
@@ -114,7 +113,9 @@ public class WorkQueue<T> {
                     log.debug("等待队列====》任务等待加入任务队列 {} ...", task);
                     nanos = fullCondition.awaitNanos(nanos);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    // sleep等等状态下的线程如果被中断会抛出InterruptedException，我们要手动恢复中断状态
+                    Thread.currentThread().interrupt();
+                    return false;
                 }
             }
             // 3.将任务存入队列中
@@ -147,14 +148,13 @@ public class WorkQueue<T> {
     }
 
     // 带超时时间阻塞获取
-    public T poll(long timeout, TimeUnit unit) {
+    public T poll(long timeout, TimeUnit unit) throws InterruptedException {
         // 1.上锁
         lock.lock();
         try {
             long nanos = unit.toNanos(timeout); // 转为毫秒
             // 2.首先检查队列是否存在元素
             while (deque.isEmpty()) {
-                try {
                     // 2.1超时判断，返回值是剩余时间
                     if (nanos <= 0) {
                         return null;
@@ -162,9 +162,6 @@ public class WorkQueue<T> {
                     // 2.2超时等待
                     log.debug("等待队列====》{}线程等待获取任务", Thread.currentThread());
                     nanos = emptyCondition.awaitNanos(nanos);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
             // 3.拿取元素
             T task = deque.removeFirst();
