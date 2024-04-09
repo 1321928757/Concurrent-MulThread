@@ -4,7 +4,8 @@
 案例五、从零手搓一个简易线程池  
 [Java多线程实战-从零手搓一个简易线程池(一)定义任务等待队列](https://blog.csdn.net/qq_35716689/article/details/136962958)  
 [Java多线程实战-从零手搓一个简易线程池(二)线程池与拒绝策略实现](https://blog.csdn.net/qq_35716689/article/details/137072055)  
-[Java多线程实战-从零手搓一个简易线程池(三)线程工厂，核心线程与非核心线程逻辑实现](https://blog.csdn.net/qq_35716689/article/details/137123379)  
+[Java多线程实战-从零手搓一个简易线程池(三)线程工厂，核心线程与非核心线程逻辑实现](https://blog.csdn.net/qq_35716689/article/details/137123379)   
+[Java多线程实战-从零手搓一个简易线程池(四)线程池生命周期状态流转实现](https://blog.csdn.net/qq_35716689/article/details/137541593)
 
 案例四，多线程编程优化查询接口响应速度  
 [Java多线程实战-CompletableFuture异步编程优化查询接口响应速度](https://blog.csdn.net/qq_35716689/article/details/136868259)
@@ -20,7 +21,8 @@
 
 
 ### 更新记录
-案例五、从零手搓一个简易线程池  
+案例五、从零手搓一个简易线程池
+2024-4-9：🔖 实现线程池的生命周期管理(分支liushijie-240409-lifecycle)  
 2024-4-2：🔖 实现核心线程与非核心线程逻辑(分支liushijie-240329-core)  
 2024-3-29：🔖 添加当前线程数字段，部分代码调整  
 2024-3-28：🔖 完成线程工厂的设计与实现(分支liushijie-240328-factory)  
