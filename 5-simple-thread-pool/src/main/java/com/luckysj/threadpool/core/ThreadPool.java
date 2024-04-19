@@ -281,5 +281,9 @@ public class ThreadPool {
 
     public boolean isTerminated() {
         return state.get() == TERMINATED;
+
+    public WorkQueue<Runnable> getQueue() {
+        return workQueue;
+
     }
 }

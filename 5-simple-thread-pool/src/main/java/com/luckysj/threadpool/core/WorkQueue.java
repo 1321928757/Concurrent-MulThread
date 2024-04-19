@@ -130,13 +130,15 @@ public class WorkQueue<T> {
         }
     }
 
-    // 非阻塞拿取
-    public T poll() {
+    // 非阻塞获取
+    public T poll(){
         // 1.上锁
         lock.lock();
         try {
+            // 2.首先检查队列是否存在元素
             T task = null;
-            if (!deque.isEmpty()) {
+            if(!deque.isEmpty()){
+
                 task = deque.removeFirst();
                 fullCondition.signal();
             }
@@ -146,7 +148,6 @@ public class WorkQueue<T> {
             lock.unlock();
         }
     }
-
     // 带超时时间阻塞获取
     public T poll(long timeout, TimeUnit unit) throws InterruptedException {
         // 1.上锁
