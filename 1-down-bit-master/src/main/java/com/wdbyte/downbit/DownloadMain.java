@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.zip.CRC32;
 
 import com.wdbyte.downbit.thread.DownloadThread;
@@ -44,6 +45,7 @@ public class DownloadMain {
         PROTOCAL_SET.add("thunder://");
         PROTOCAL_SET.add("http://");
         PROTOCAL_SET.add("https://");
+
     }
 
     public static void main(String[] args) throws Exception {
