@@ -6,11 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * @author Luckysj @刘仕杰
@@ -281,9 +279,5 @@ public class ThreadPool {
 
     public boolean isTerminated() {
         return state.get() == TERMINATED;
-
-    public WorkQueue<Runnable> getQueue() {
-        return workQueue;
-
     }
 }
