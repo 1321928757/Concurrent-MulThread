@@ -273,10 +273,12 @@ public class ThreadPool {
 
     }
 
+    // 判断是否为SHUTDOWN状态
     public boolean isShutdown() {
         return state.get() >= SHUTDOWN;
     }
 
+    // 判断是否为TERMINATED状态
     public boolean isTerminated() {
         return state.get() == TERMINATED;
     }

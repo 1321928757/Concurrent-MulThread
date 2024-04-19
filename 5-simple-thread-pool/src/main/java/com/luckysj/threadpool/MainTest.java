@@ -18,7 +18,7 @@ public class MainTest {
         ThreadPool threadPool = new ThreadPool(new WorkQueue<>(5), 2, 5,5L, TimeUnit.SECONDS,
                 new CallerRunsPolicy(), new DefaultThreadFactory());
 
-      // 2.允许核心线程回收
+       // 2.允许核心线程回收
         threadPool.setAllowCoreThreadTimeOut(false);
         for (int i = 0; i < 15; i++) {
             int finalI = i;
@@ -27,6 +27,7 @@ public class MainTest {
             });
         }
 
+        // 3.尝试关闭线程池
         threadPool.shutdown();
 
     }
