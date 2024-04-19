@@ -36,7 +36,7 @@ public class WorkQueue<T> {
         lock.lock();
         try {
             // 2.首先检查队列是否满了
-            while(size == deque.size()){
+            while (size == deque.size()) {
                 // 满了，那么我就等吧
                 fullCondition.await();
             }
@@ -46,7 +46,8 @@ public class WorkQueue<T> {
             // 4.唤醒挂起的消费者
             emptyCondition.signal();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            // sleep等等状态下的线程如果被中断会抛出InterruptedException，我们要手动恢复中断状态
+            Thread.currentThread().interrupt();
         } finally {
             // 释放锁
             lock.unlock();
@@ -54,12 +55,12 @@ public class WorkQueue<T> {
     }
 
     // 获取任务 阻塞获取
-    public T take() {
+    public T take() throws InterruptedException {
         // 1.上锁
         lock.lock();
         try {
             // 2.首先检查队列是否存在元素
-            while(deque.isEmpty()){
+            while (deque.isEmpty()) {
                 // 空的，那我也等吧
                 emptyCondition.await();
             }
@@ -69,21 +70,19 @@ public class WorkQueue<T> {
             // 4.唤醒挂起的生产者
             fullCondition.signal();
             return task;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
+        }  finally {
             // 释放锁
             lock.unlock();
         }
     }
 
     // 非堵塞添加任务
-    public Boolean offer(T task){
+    public Boolean offer(T task)  {
         // 1.上锁
         lock.lock();
         try {
-            if (size == deque.size()){
-               return false;
+            if (size == deque.size()) {
+                return false;
             }
             // 3.将任务存入队列中
             deque.addLast(task);
@@ -96,6 +95,7 @@ public class WorkQueue<T> {
             lock.unlock();
         }
     }
+
     // 带超时时间阻塞添加
     public Boolean offer(T task, Long timeout, TimeUnit unit) {
         // 1.上锁
@@ -103,17 +103,19 @@ public class WorkQueue<T> {
         try {
             long nanos = unit.toNanos(timeout); // 转为毫秒
             // 2.首先检查队列是否满了
-            while(size == deque.size()){
+            while (size == deque.size()) {
                 try {
                     // 2.1超时判断，返回值是剩余时间
-                    if(nanos <= 0){
+                    if (nanos <= 0) {
                         return false;
                     }
                     // 2.2超时等待
                     log.debug("等待队列====》任务等待加入任务队列 {} ...", task);
                     nanos = fullCondition.awaitNanos(nanos);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    // sleep等等状态下的线程如果被中断会抛出InterruptedException，我们要手动恢复中断状态
+                    Thread.currentThread().interrupt();
+                    return false;
                 }
             }
             // 3.将任务存入队列中
@@ -136,6 +138,7 @@ public class WorkQueue<T> {
             // 2.首先检查队列是否存在元素
             T task = null;
             if(!deque.isEmpty()){
+
                 task = deque.removeFirst();
                 fullCondition.signal();
             }
@@ -146,24 +149,20 @@ public class WorkQueue<T> {
         }
     }
     // 带超时时间阻塞获取
-    public T poll(long timeout, TimeUnit unit) {
+    public T poll(long timeout, TimeUnit unit) throws InterruptedException {
         // 1.上锁
         lock.lock();
         try {
             long nanos = unit.toNanos(timeout); // 转为毫秒
             // 2.首先检查队列是否存在元素
-            while(deque.isEmpty()){
-                try {
+            while (deque.isEmpty()) {
                     // 2.1超时判断，返回值是剩余时间
-                    if(nanos <= 0){
+                    if (nanos <= 0) {
                         return null;
                     }
                     // 2.2超时等待
                     log.debug("等待队列====》{}线程等待获取任务", Thread.currentThread());
                     nanos = emptyCondition.awaitNanos(nanos);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
             // 3.拿取元素
             T task = deque.removeFirst();
@@ -177,7 +176,7 @@ public class WorkQueue<T> {
         }
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return deque.isEmpty();
     }
 
