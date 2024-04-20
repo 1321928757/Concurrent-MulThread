@@ -1,4 +1,4 @@
-package com.wdbyte.downbit.util;
+package com.luckysj.downbit.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

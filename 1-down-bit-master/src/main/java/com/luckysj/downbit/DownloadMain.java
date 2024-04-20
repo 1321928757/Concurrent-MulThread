@@ -1,4 +1,4 @@
-package com.wdbyte.downbit;
+package com.luckysj.downbit;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -15,15 +15,14 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.Semaphore;
 import java.util.zip.CRC32;
 
-import com.wdbyte.downbit.thread.DownloadThread;
-import com.wdbyte.downbit.thread.LogThread;
-import com.wdbyte.downbit.util.FileUtils;
-import com.wdbyte.downbit.util.HttpUtls;
-import com.wdbyte.downbit.util.LogUtils;
-import com.wdbyte.downbit.util.ThunderUtils;
+import com.luckysj.downbit.thread.DownloadThread;
+import com.luckysj.downbit.thread.LogThread;
+import com.luckysj.downbit.util.FileUtils;
+import com.luckysj.downbit.util.HttpUtls;
+import com.luckysj.downbit.util.LogUtils;
+import com.luckysj.downbit.util.ThunderUtils;
 
 /**
  * 多线程下载

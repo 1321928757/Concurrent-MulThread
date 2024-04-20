@@ -1,4 +1,4 @@
-package com.wdbyte.downbit.thread;
+package com.luckysj.downbit.thread;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -7,10 +7,10 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.util.concurrent.Callable;
 
-import com.wdbyte.downbit.DownloadMain;
-import com.wdbyte.downbit.util.FileUtils;
-import com.wdbyte.downbit.util.HttpUtls;
-import com.wdbyte.downbit.util.LogUtils;
+import com.luckysj.downbit.DownloadMain;
+import com.luckysj.downbit.util.FileUtils;
+import com.luckysj.downbit.util.HttpUtls;
+import com.luckysj.downbit.util.LogUtils;
 
 /**
  * 多线程下载工具类

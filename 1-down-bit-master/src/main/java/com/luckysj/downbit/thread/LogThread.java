@@ -1,10 +1,10 @@
-package com.wdbyte.downbit.thread;
+package com.luckysj.downbit.thread;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.wdbyte.downbit.DownloadMain;
+import com.luckysj.downbit.DownloadMain;
 
 /**
  * 多线程下载日志记录

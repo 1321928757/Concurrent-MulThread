@@ -1,12 +1,10 @@
-package com.wdbyte.downbit.util;
+package com.luckysj.downbit.util;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-
-import javax.security.auth.login.LoginContext;
 
 /**
  * 网络请求操作工具类
