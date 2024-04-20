@@ -33,26 +33,4 @@ public class MainTest {
         threadPool.shutdown();
     }
 
-    private Node addWaiter(Node mode) {
-        //创建 Node 类，并且设置 thread 为当前线程，设置为排它锁
-        Node node = new Node(Thread.currentThread(), mode);
-        // 获取 AQS 中队列的尾部节点
-        Node pred = tail;
-        // 如果 tail == null，说明是空队列，
-        // 不为 null，说明现在队列中有数据，
-        if (pred != null) {
-            // 将当前节点的 prev 指向刚才的尾部节点，那么当前节点应该设置为尾部节点
-            node.prev = pred;
-            // CAS 将 tail 节点设置为当前节点
-            if (compareAndSetTail(pred, node)) {
-                // 将之前尾节点的 next 设置为当前节点
-                pred.next = node;
-                // 返回当前节点
-                return node;
-            }
-        }
-        enq(node);
-        return node;
-    }
-
 }
