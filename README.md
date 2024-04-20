@@ -1,6 +1,9 @@
 ## 本仓库主要分享一些Java多线程编程的实用代码片段 -by LuckySJ@刘仕杰
 
 ### 代码文章讲解(CSDN)
+案例六、基于AQS实现一个线程同步器  
+[利用AQS(AbstractQueuedSynchronizer)实现一个同步器-源码实践](https://blog.csdn.net/qq_35716689/article/details/138009800)   
+
 案例五、从零手搓一个简易线程池  
 [Java多线程实战-从零手搓一个简易线程池(一)定义任务等待队列](https://blog.csdn.net/qq_35716689/article/details/136962958)  
 [Java多线程实战-从零手搓一个简易线程池(二)线程池与拒绝策略实现](https://blog.csdn.net/qq_35716689/article/details/137072055)  
