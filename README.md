@@ -20,8 +20,7 @@
 [Java多线程实战-异步操作日志记录解决方案(AOP+注解+多线程)](https://blog.csdn.net/qq_35716689/article/details/136748521)
 
 案例一，多线程下载器  
-[Java多线程实战-实现多线程文件下载，支持断点续传、日志记录等功能](https://blog.csdn.net/qq_35716689/article/details/136597588)
-
+[Java多线程实战-实现多线程文件下载，支持断点续传、日志记录等功能](https://blog.csdn.net/qq_35716689/article/details/136597588)  
 
 ### 更新记录  
 案例六、基于AQS实现一个线程同步器  
