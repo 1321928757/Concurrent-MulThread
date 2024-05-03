@@ -60,13 +60,13 @@
 
 ### JUC源码扩展阅读推荐(CSDN)  
 
-[AQS(AbstractQueuedSynchronizer,队列同步器)源码解读](https://luckysj.blog.csdn.net/article/details/137976067)  
-[Semaphore(信号量)源码解读与使用](https://luckysj.blog.csdn.net/article/details/137885376)  
-[利用AQS(AbstractQueuedSynchronizer)实现一个线程同步器](https://luckysj.blog.csdn.net/article/details/138009800)  
-[CAS机制(Compare And Swap)源码解读与三大问题](https://luckysj.blog.csdn.net/article/details/138042289)  
-[CountDownLatch(倒计时器)源码解读与使用](https://luckysj.blog.csdn.net/article/details/138087743)  
-[CyclicBarrier(循环屏障)源码解读与使用](https://luckysj.blog.csdn.net/article/details/138138113)  
-[ReentrantLock(可重入锁)源码解读与使用](https://luckysj.blog.csdn.net/article/details/138190115)  
-[ReentrantReadWriteLock(可重入读写锁)](https://luckysj.blog.csdn.net/article/details/138324381)  
+[AQS(AbstractQueuedSynchronizer,队列同步器)源码解读-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/137976067)  
+[Semaphore(信号量)源码解读与使用-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/137885376)  
+[利用AQS(AbstractQueuedSynchronizer)实现一个线程同步器-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/138009800)  
+[CAS机制(Compare And Swap)源码解读与三大问题-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/138042289)  
+[CountDownLatch(倒计时器)源码解读与使用-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/138087743)  
+[CyclicBarrier(循环屏障)源码解读与使用-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/138138113)  
+[ReentrantLock(可重入锁)源码解读与使用-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/138190115)  
+[ReentrantReadWriteLock(可重入读写锁)-牵着猫散步的鼠鼠](https://luckysj.blog.csdn.net/article/details/138324381)  
 
 
